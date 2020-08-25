@@ -129,7 +129,7 @@ footer {
   justify-content: space-between;
 }
 
-.task-actions button,
+.task-actions,
 .task-actions select {
   flex: 1;
 }
