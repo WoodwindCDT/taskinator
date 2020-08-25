@@ -202,20 +202,11 @@ var dropZoneDragHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
     event.preventDefault();
+    taskListEl.setAttribute("style", "background: rgba(68, 233, 255, 0.7); border-style: dashed;");
   }
 };
 
-// To allow the event to run function 'createTaskHandler'
-formEl.addEventListener("submit", taskFormHandler);
-
-pageContentEl.addEventListener("click", taskButtonHandler);
-
-pageContentEl.addEventListener("change", taskStatusChangeHandler);
-
-pageContentEl.addEventListener("dragstart", dragTaskHandler);
-
-pageContentEl.addEventListener("dragover", dropZoneDragHandler);
-
+// Drop Function
 var dropTaskHandler = function(event) {
     var id = event.dataTransfer.getData("text/plain");
     var draggableElement = document.querySelector("[data-task-id='" + id + "']");
@@ -232,7 +223,29 @@ var dropTaskHandler = function(event) {
     else if (statusType === "tasks-completed") {
         statusSelectEl.selectedIndex = 2;
     }
+    dropZoneEl.removeAttribute("style");
     dropZoneEl.appendChild(draggableElement);
 };
 
+// Drag Leave Function
+var dragLeaveHandler = function(event) {
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        taskListEl.removeAttribute("style");
+    }
+};
+
+// To allow the event to run function 'createTaskHandler'
+formEl.addEventListener("submit", taskFormHandler);
+
+pageContentEl.addEventListener("click", taskButtonHandler);
+
+pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+pageContentEl.addEventListener("dragstart", dragTaskHandler);
+
+pageContentEl.addEventListener("dragover", dropZoneDragHandler);
+
 pageContentEl.addEventListener("drop", dropTaskHandler);
+
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
